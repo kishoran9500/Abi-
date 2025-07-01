@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Magic Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top left, #ff6ec4, #7873f5);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .glow-text {
+      font-size: 34px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 8px #ff6ec4, 0 0 12px #7873f5;
+      margin-bottom: 20px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 8px #ff6ec4, 0 0 12px #7873f5; }
+      to   { text-shadow: 0 0 20px #ffffff, 0 0 30px #ff6ec4; }
+    }
+
+    .glass-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #ff6ec4, #7873f5);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .error {
+      color: #ffcccc;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dashboard, .page {
+      display: none;
+      animation: fadeIn 1s ease-in;
+      color: white;
+    }
+
+    .user-buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .user-btn {
+      background: linear-gradient(to right, #fcb045, #fd1d1d, #833ab4);
+      color: white;
+      padding: 16px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .user-btn:hover {
+      transform: scale(1.08);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      margin-top: 30px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid white;
+      border-radius: 15px;
+      box-shadow: 0 0 20px white;
+      text-align: center;
+    }
+
+    .card h1 {
+      font-size: 36px;
+      animation: glow 2s infinite alternate;
+    }
+
+    .card p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      margin-top: 30px;
+      background: #fff;
+      color: #333;
+      border-radius: 8px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-text" id="welcome">WELCOME TO ABI</div>
+
+  <div class="glass-box" id="loginBox">
+    <h2>Login</h2>
+    <form onsubmit="return checkPassword(event)">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <div class="error" id="errorMsg"></div>
+    </form>
+  </div>
+
+  <div class="dashboard" id="dashboard">
+    <div class="user-buttons">
+      <button class="user-btn" onclick="showPage('akshyaPage')">Akshya</button>
+      <button class="user-btn" onclick="showPage('iceshuPage')">Iceshu</button>
+    </div>
+  </div>
+
+  <div class="page" id="akshyaPage">
+    <div class="card">
+      <h1>🌸 Special One – Akshya 🌸</h1>
+      <p>This page is made with love for Akshya!</p>
+      <p>You’re unique and truly special!</p>
+      <p>– From ABi 💎</p>
+      <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+  </div>
+
+  <div class="page" id="iceshuPage">
+    <div class="card">
+      <h1>❄️ Cool and Kind – Iceshu ❄️</h1>
+      <p>To the charming Iceshu,</p>
+      <p>This light shines only for you! ✨</p>
+      <p>– With love, Abi 💎</p>
+      <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+  </div>
+
+  <script>
+    function checkPassword(event) {
+      event.preventDefault();
+      const password = document.getElementById("password").value;
+      if (password === "abi@123") {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("dashboard").style.display = "flex";
+      } else {
+        document.getElementById("errorMsg").textContent = "Wrong password!";
+      }
+    }
+
+    function showPage(pageId) {
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById(pageId).style.display = "block";
+    }
+
+    function goBack() {
+      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+      document.getElementById("dashboard").style.display = "flex";
+    }
+  </script>
+</body>
+</html>
